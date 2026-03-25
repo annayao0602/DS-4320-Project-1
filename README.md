@@ -39,6 +39,7 @@ Terminology
 |Burstiness|The variation in sentence length and structure within a document.|
 |Transformer Architecture|The underlying neural network structure of modern LLMs (like GPT or BERT) that uses self-attention to process sequential data.|
 |Large language model|A deep learning algorithm trained on massive datasets to recognize, summarize, translate, predict, and generate text.|
+|Academic|Of or relating to education or scholarly pursuit, describing intellectual study|
 
 Domain of Project
 This project operates within the domain of Natural Language Processing (NLP) and cybersecurity, specifically focusing on synthetic media detection and text forensics. While generative AI focuses on natural language generation (NLG), this domain focuses on natural language understanding to reverse-engineer the footprint left by those generative models. The ultimate goal in this domain is not just binary classification, but building clear data visualizations and interpretability tools so end-users can understand why a piece of text was flagged.
