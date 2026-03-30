@@ -53,28 +53,45 @@ Table - showing a summary of the readings, one row per
 item, includes title, brief description, and link to file in folder
 
 ## Data Creation 
-Paragraph or two explaining the raw data acquisition process (provenance).
-  2
-Code Table showing the code used to create the data, one
-row per file, with a brief description and link to code in repo
-  3
-Bias Identification description of how bias could be/was
-introduced in the data collection process
-  1
-Bias Mitigation description of how biases can be handled/quantified/accounted for in analysis
-  1
-Rationale for critical decisions, especially judgement calls,
-and places that can introduce/mitigate uncertainty
+To acquire my data, I looked on kaggle and hugging face to find existing academic human and AI writing. After finding three datasets that had similar structure, I downloaded the datasets and feature engineered them down to the information I needed - the label (human or AI), model type, text, and text category. From there, I feature engineered the text to be dissolved into text chunks for easier ML down the rode. These featured allowed me to build my 4 tables - author, model, text document, and text chunk. Altogether, I acquired ~160 MB worth of parquet data, which was about 1.7 million rows of data combined across all 4 tables. This data was stored in these parquet files in a UVA OneDrive folder, and used in code locally.
+
+|Code|Description|Link|
+|---|---|---|
+|data_acquisition.ipynb|Extracted 3 open source datasets and transformed them into 4 parquet tables of data|https://github.com/annayao0602/DS-4320-Project-1/blob/main/data_acquisition.ipynb|
+
+There could be potential bias in the data collection process due to the datasets used. Since the data wasn't collected directly but just came from these datasets, any previous bias in those datasets could be present. This includes the prompts which were fed to the models, the types of models that were used (model representation bias), and language bias. Since all of the writing in this dataset is in English, this project may not be applicable to other languages.
+
+To mitigate these biases, it is possible to account for equal representation of model types present (ex. using llama outputs just as often as gpt) or to at least have an understanding of separation of models. This would help mitigate treating AI as a monolith. Additionally, since this dataset still contains the category and source of the documents, it is possible to trace back domain bias within these specific categories.
+
+Instead of feeding the entire document of text at once to ML, I decided to tokenize text into sentence chunks while still maintaining its order within the greater text. This allows for a more streamlined approach to feeding the model inputs, while still keeping the context in which the sentence was in. Additionally, I decided to overlap author tags (human) to maintain a strict primary key, preventing a 1-to-many relationship.
 
 ## Metadata 
-Schema ER diagram at the logical level   3
-Data Table listing all of the tables in the dataset, one line
-per table, brief description and link to csv file
-  1
-Data Dictionary Table with one row per feature in the
-data set containing: name, data type, description, example
-  3
-Data Dictionary quantification of uncertainty for numerical features
+![er_diagram](er_diagram.jpeg)
 
+|Table Name|Description|Link to file|
+|---|---|---|
+|Authors|Tracks the source of text|https://myuva-my.sharepoint.com/:u:/g/personal/zzz2bx_virginia_edu/IQBeqwKnCLHbSoPYqrQ0wO7lARq7jZ0xKq8yEvqQ-4-dvms?e=VABw7L|
+|Documents|Text records|https://myuva-my.sharepoint.com/:u:/g/personal/zzz2bx_virginia_edu/IQDkcX2N3sTxQJ9Oz7infXTFAQWLmv6QwtPGcoFRKSankaI?e=v0QZmC|
+|Text_Chunks|Breakdown of documents for analysis|https://myuva-my.sharepoint.com/:u:/g/personal/zzz2bx_virginia_edu/IQBETwVlWI6bR4fkDXalbR7cAWc8W27MyI5jyqp5hPF6G7I?e=XSthlV|
+|Model_info|Information of models used|https://myuva-my.sharepoint.com/:u:/g/personal/zzz2bx_virginia_edu/IQD4PsCB1hcsTaa_X-VByiY-AXsccCrlR0irMGcn5UOOmac?e=77cX7y|
+
+|Feature Name|Table|Data Type|Description|Example|
+|---|---|---|---|---|
+|Author_ID|Authors|String (PK)|Unique identifier for the text creator.|AUTH_HUMAN|
+|Author_Type|Authors|String|Categorical label indicating if the text is natural or synthetic.|AI|
+|Description|Authors|String|Brief text context about the author or model.|Original Academic Author|
+|Model_ID|Model_Info|String (PK)|Unique identifier for the specific LLM architecture.|MOD_GPT4O|
+|Author_ID|Model_Info|String (FK)|Foreign key linking the model back to the Authors table.|AUTH_AI_01|
+|Model_Name|Model_Info|String|The human-readable version/name of the AI model.|ChatGPT 4o|
+|Doc_ID|Documents|String (PK)|Unique UUID assigned to each full-length essay or abstract.|550e8400-e29b-41d4-a716-446655440000|
+|Author_ID|Documents|String (FK)|Foreign key linking the document to its creator.|AUTH_AI_LLAMA|
+|Source|Documents|String|The origin dataset or corpus the text was scraped from.|SciHRA-Academic|
+|Category|Documents|String|The specific prompt, domain, or title of the original text.|Phones and driving|
+|Chunk_ID|Text_Chunks|String (PK)|Unique UUID for every single parsed sentence.|123e4567-e89b-12d3-a456-426614174000|
+|Doc_ID|Text_Chunks|String (FK)|Foreign key linking the sentence back to its parent document.|550e8400-e29b-41d4-a716-446655440000|
+|Sequence_Number|Text_Chunks|Integer|The chronological order (index) of the sentence within the document.|0, 1, 2|
+|Raw_Text|Text_Chunks|String|The actual text data of the individual sentence.|The study aims to examine the role of cells.|
+
+The Sequence_Number feature in the Text_Chunks table tracks the total number of sentences in a document and their specific order. However, there is an inherent margin of uncertainty (around 2-5%) in this numerical sequence due to the limitations of the Natural Language Toolkit (NLTK) sent_tokenize library used during data generation. When analyzing burstiness in the pipeline, this uncertainty is mitigated by viewing thousands of chunks rather than just absolute sequence maximums from a single document.
 
 

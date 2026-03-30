@@ -1,4 +1,0 @@
-test and train: https://huggingface.co/datasets/Ateeqq/AI-and-Human-Generated-Text/tree/main
-- uses GPT 3
-scihra: https://huggingface.co/datasets/mithu-ngl/SciHRA-Detect
-daight: https://www.kaggle.com/datasets/thedrcat/daigt-v3-train-dataset?resource=download&select=train_v3_drcat_02.csv
