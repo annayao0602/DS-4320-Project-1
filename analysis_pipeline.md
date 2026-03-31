@@ -9,6 +9,7 @@ import numpy as np
 import logging
 
 logging.basicConfig(
+    filename='logs/pipeline_execution.log',
     level=logging.INFO, 
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
@@ -97,16 +98,6 @@ if ml_df is not None:
 
 # EDA
 ``` Python
-import pandas as pd
-import logging
-
-logging.basicConfig(
-    level=logging.INFO, 
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-logger = logging.getLogger(__name__)
-
 #function to run eda on new features
 def run_exploratory_data_analysis(df):
     try:
@@ -167,14 +158,6 @@ run_exploratory_data_analysis(ml_df)
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-import logging
-
-logging.basicConfig(
-    level=logging.INFO, 
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-logger = logging.getLogger(__name__)
 
 def plot_transitions_distribution(df):
     try:
@@ -226,14 +209,6 @@ In our initial pre-model analysis, it appears that there is a fairly equal distr
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
-import logging
-
-logging.basicConfig(
-    level=logging.INFO, 
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-logger = logging.getLogger(__name__)
 
 #train an XGBoost classifier to predict ai/human writing
 def train_xgboost_classifier(df):
@@ -317,12 +292,6 @@ I chose the XGBoost model due to its ability to classify using a tree structure,
 
 # Visualize Results
 ``` Python
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-
-logger = logging.getLogger(__name__)
-
 # Function to plot feature importance from the trained XGBoost model
 def plot_feature_importance(model, feature_names):
     try:
