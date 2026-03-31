@@ -5,12 +5,11 @@ This repository contains the data engineering pipeline and analytical proof-of-c
 
 #### Name: Anna Yao
 #### Computing ID: zzz2bx
-#### DOI  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19343179.svg)](https://doi.org/10.5281/zenodo.19343179)   
+#### DOI  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19343179.svg)](https://doi.org/10.5281/zenodo.19343179)
 #### Press Release: [link to press release](https://github.com/annayao0602/DS-4320-Project-1/blob/main/press_release.md)
 #### Link to data: https://myuva-my.sharepoint.com/:f:/g/personal/zzz2bx_virginia_edu/IgB-EgFKxWcjRLIf0N2vfqlgAZLhVz1bKyLZ9IOmJxfAU_U?e=c3Xrje
 #### Pipeline [link to pipeline files](https://github.com/annayao0602/DS-4320-Project-1/blob/main/analysis_pipeline.ipynb)
-#### License 
-[MIT License](https://github.com/annayao0602/DS-4320-Project-1/blob/main/LICENSE)
+#### License [MIT License](https://github.com/annayao0602/DS-4320-Project-1/blob/main/LICENSE)
 
 ## Problem Definition
 #### Initial general statement: 
@@ -55,14 +54,18 @@ This project operates within the domain of Natural Language Processing (NLP) and
 ## Data Creation 
 To acquire my data, I looked on kaggle and hugging face to find existing academic human and AI writing. After finding three datasets that had similar structure, I downloaded the datasets and feature engineered them down to the information I needed - the label (human or AI), model type, text, and text category. From there, I feature engineered the text to be dissolved into text chunks for easier ML down the rode. These featured allowed me to build my 4 tables - author, model, text document, and text chunk. Altogether, I acquired ~160 MB worth of parquet data, which was about 1.7 million rows of data combined across all 4 tables. This data was stored in these parquet files in a UVA OneDrive folder, and used in code locally.
 
+#### Code
 |Code|Description|Link|
 |---|---|---|
 |data_acquisition.ipynb|Extracted 3 open source datasets and transformed them into 4 parquet tables of data|https://github.com/annayao0602/DS-4320-Project-1/blob/main/data_acquisition.ipynb|
 
+#### Bias Identification
 There could be potential bias in the data collection process due to the datasets used. Since the data wasn't collected directly but just came from these datasets, any previous bias in those datasets could be present. This includes the prompts which were fed to the models, the types of models that were used (model representation bias), and language bias. Since all of the writing in this dataset is in English, this project may not be applicable to other languages.
 
+#### Bias Mitigation
 To mitigate these biases, it is possible to account for equal representation of model types present (ex. using llama outputs just as often as gpt) or to at least have an understanding of separation of models. This would help mitigate treating AI as a monolith. Additionally, since this dataset still contains the category and source of the documents, it is possible to trace back domain bias within these specific categories.
 
+#### Rationale
 Instead of feeding the entire document of text at once to ML, I decided to tokenize text into sentence chunks while still maintaining its order within the greater text. This allows for a more streamlined approach to feeding the model inputs, while still keeping the context in which the sentence was in. Additionally, I decided to overlap author tags (human) to maintain a strict primary key, preventing a 1-to-many relationship.
 
 ## Metadata 
