@@ -216,7 +216,7 @@ def plot_transitions_distribution(df):
 plot_transitions_distribution(ml_df)
 
 ```
-![EDA](EDA.png)
+![EDA](pictures/EDA.png)
 Figure 1. EDA of Transitions per sentence by AI and Human
 
 In our initial pre-model analysis, it appears that there is a fairly equal distribution in documents by source. Additionally, AI written documents seem to have a much longer average sentence length as compared to humans. Contrary to prior belief, there doesn't seem to be much difference in feature burstiness between the two sources, with humans actually having less burstiness than the AI models. This could be unique to academic writing. Other features provide some up front differences, such as the use of transition words, questions asked, minimum sentence length, and commas used.
@@ -374,7 +374,7 @@ def plot_feature_importance(model, feature_names):
 plot_feature_importance(trained_model, final_features)
 
 ```
-![Feature_importance](Feature_Importance.png)
+![Feature_importance](pictures/Feature_Importance.png)
 
 Figure 2. Feature Importance of XGBoost
 

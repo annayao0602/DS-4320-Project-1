@@ -14,7 +14,7 @@ Because AI models are trained using reinforcement learning to be incredibly help
 ## Chart
 To understand exactly how the algorithm separates human from machine, we mapped out the most important structural "tells."
 
-![XGBoost Feature Importance](Feature_Importance.png)
+![XGBoost Feature Importance](pictures/Feature_Importance.png)
 *Figure 1: The model's decision-making hierarchy, showing Information Gain by feature (the elements of the text).*
 
 As shown in the chart above, **Transitions Per Sentence** makes up most of the information gain, making it a huge signifier. While human academics naturally write with less words and use conceptual bridges to link their ideas, AI models mathematically over-rely on mechanical transition words to structure their paragraphs. By isolating these structural crutches, we can reliably detect artificial generation. Other tells, such as comma usage and sentence length are also giveaways for these generated texts.
